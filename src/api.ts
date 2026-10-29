@@ -138,6 +138,16 @@ export async function getCategory() {
 
 //   return data;
 // }
+// mtavadmai9djiadiadiadiawkdiajdiajdaijdi9ajdai9jd9ajd89ajd89ajda89dja89jda89dja89dja89dja89dja89dj
+// adaodkadka0dkada
+
+// mtavadmai9djiadiad
+
+// mtavadmai9djiadiad
+
+// mtavadmai9djiadiad
+
+// mtavadmai9djiadiad
 export async function getProducts(searchParams: URLSearchParams) {
   const params = new URLSearchParams(searchParams);
 
@@ -164,6 +174,9 @@ export async function getProducts(searchParams: URLSearchParams) {
   return data;
 }
 // ///////////////////////////////////////////
+////////////////////////////////
+//////////////////////////
+// log in an guest  tokenis mixedvit
 export async function getMe(token: string) {
   const response = await fetch(`${API}/auth/me`, {
     headers: {
@@ -176,4 +189,51 @@ export async function getMe(token: string) {
   if (!response.ok) throw data;
 
   return data;
+}
+///////////////////////////////////
+// product page
+export async function getProduct(slug: string) {
+  const response = await fetch(`${API}/products/${slug}`);
+
+  const data = await response.json();
+
+  if (!response.ok) throw data;
+
+  return data;
+}
+// every cart request needs the token, so it is added in one place
+async function cartRequest(path: string, method: string, body?: object) {
+  const token = localStorage.getItem("accessToken");
+
+  const response = await fetch(`${API}${path}`, {
+    method: method,
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: body ? JSON.stringify(body) : undefined,
+  });
+
+  const data = await response.json();
+
+  if (!response.ok) throw data;
+
+  return data;
+}
+// /so here we get request for specific product and quantity every time we increase it from ui?
+
+export function getCart() {
+  return cartRequest("/cart", "GET");
+}
+
+export function addCartItem(productId: string, qty: number) {
+  return cartRequest("/cart/items", "POST", { productId: productId, qty: qty });
+}
+
+export function updateCartItem(itemId: string, qty: number) {
+  return cartRequest(`/cart/items/${itemId}`, "PATCH", { qty: qty });
+}
+
+export function removeCartItem(itemId: string) {
+  return cartRequest(`/cart/items/${itemId}`, "DELETE");
 }

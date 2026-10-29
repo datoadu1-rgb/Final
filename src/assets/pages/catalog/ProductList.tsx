@@ -62,6 +62,7 @@ export function ProductSkeletons() {
         {featured.map((number) => (
           <SkeletonCard key={number} />
         ))}
+        {/* ???????????? css */}
       </section>
 
       <section className="product-grid skeleton-grid">

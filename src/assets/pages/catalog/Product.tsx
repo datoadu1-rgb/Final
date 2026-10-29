@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 
-type Product = {
+export type Product = {
   id: string;
   slug: string;
   title: string;

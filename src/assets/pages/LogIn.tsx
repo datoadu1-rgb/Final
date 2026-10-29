@@ -1,9 +1,10 @@
 /* eslint-disable react-hooks/refs */
+
 // src/assets/pages/LogIn.tsx
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import {
   Button,
   Input,
@@ -27,6 +28,11 @@ type LoginValues = z.infer<typeof loginSchema>;
 
 function Login() {
   const navigate = useNavigate();
+  const location = useLocation();
+
+  const from = location.state?.from
+    ? location.state.from.pathname + location.state.from.search
+    : "/catalog";
   const auth = useAuth();
   const form = useForm<LoginValues>({
     resolver: zodResolver(loginSchema),
@@ -39,7 +45,7 @@ function Login() {
     try {
       const data = await login(values.email, values.password);
       auth.signIn(data.accessToken, data.user);
-      navigate("/");
+      navigate(from, { replace: true });
     } catch (error) {
       if (typeof error === "object" && error !== null && "message" in error) {
         form.setError("root", {
