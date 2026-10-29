@@ -1,5 +1,5 @@
 import { useSearchParams } from "react-router-dom";
-
+// AI
 interface PaginationProps {
   page: number;
   totalPages: number;

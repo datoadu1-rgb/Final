@@ -7,6 +7,7 @@ import { Link } from "react-router-dom";
 import { useAuth } from "./auth";
 import type { ChangeEvent, ReactNode, Ref } from "react";
 import { useNavigate } from "react-router-dom";
+import { useCart } from "./assets/pages/cart.tsx";
 /////////////////////////////////////////////////////////////////////////
 interface ButtonProps {
   type?: "button" | "submit";
@@ -61,6 +62,7 @@ interface PasswordInputProps {
   name?: string;
   value?: string;
   onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
+  // mshoblidan modis propad instrukcia
   ref?: Ref<HTMLInputElement>;
   disabled?: boolean;
   error?: boolean;
@@ -153,12 +155,16 @@ export function AuthLayout(props: AuthLayoutProps) {
     </div>
   );
 }
+
+//  logoutis
 export function AuthButton() {
   const auth = useAuth();
+  const cart = useCart();
   const navigate = useNavigate();
 
   function handleLogout() {
     auth.logout();
+    cart.clearCart();
     navigate("/login");
   }
 
@@ -178,5 +184,42 @@ export function AuthButton() {
     <button type="button" className="auth-button" onClick={handleLogout}>
       Log out
     </button>
+  );
+}
+
+//  floating cart thina  below the screen
+export function FloatingCart() {
+  const auth = useAuth();
+  const cart = useCart();
+
+  const count = cart.cart?.totalQty ?? 0;
+
+  // hidden until the cart has something in it
+  if (auth.status !== "authenticated" || count === 0) {
+    return null;
+  }
+
+  return (
+    <Link className="floating-cart" to="/cart" aria-label="Open cart">
+      {/* the key changes with the count, so React rebuilds this and the animation plays again */}
+      <span key={count} className="floating-cart__inner">
+        <svg
+          viewBox="0 0 24 24"
+          width="26"
+          height="26"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        >
+          <circle cx="9" cy="21" r="1" />
+          <circle cx="20" cy="21" r="1" />
+          <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" />
+        </svg>
+
+        <span className="floating-cart__badge">{count}</span>
+      </span>
+    </Link>
   );
 }

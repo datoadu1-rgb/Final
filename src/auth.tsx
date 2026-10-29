@@ -85,7 +85,7 @@ export function RequireAuth({ children }: { children: ReactNode }) {
   }
 
   if (auth.status === "guest") {
-    return <Navigate to="/login" state={{ from: location }} replace />;
+    return <Navigate to={"/login?redirect=" + location.pathname} replace />;
   }
 
   return <>{children}</>;

@@ -3,7 +3,7 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import {
   Alert,
   AuthLayout,
@@ -40,6 +40,11 @@ type RegisterValues = z.infer<typeof registerSchema>;
 
 function Register() {
   const navigate = useNavigate();
+  const location = useLocation();
+
+  const from = location.state?.from
+    ? location.state.from.pathname + location.state.from.search
+    : "/catalog";
   const form = useForm<RegisterValues>({
     resolver: zodResolver(registerSchema),
   });
@@ -56,7 +61,7 @@ function Register() {
     try {
       const data = await register(values.name, values.email, values.password);
       auth.signIn(data.accessToken, data.user);
-      navigate("/");
+      navigate(from, { replace: true });
     } catch (error) {
       if (typeof error === "object" && error !== null && "message" in error) {
         form.setError("root", {

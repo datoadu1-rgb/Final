@@ -9,6 +9,7 @@ import "../../catalog.css";
 import { AuthButton } from "../../../shared-components";
 import { ProductSkeletons } from "./ProductList";
 import { Link } from "react-router-dom";
+import { FloatingCart } from "../../../shared-components";
 function Catalog() {
   const [searchParams, setSearchParams] = useSearchParams();
   const [isFilterOpen, setIsFilterOpen] = useState(false);
@@ -88,6 +89,7 @@ function Catalog() {
           TECH<sup>2</sup>HEADS
         </Link>
         <AuthButton />
+        <FloatingCart />
       </div>
 
       {isFilterOpen && (
@@ -95,6 +97,7 @@ function Catalog() {
           className="catalog-overlay"
           onClick={() => setIsFilterOpen(false)}
         ></div>
+        // css stvis
       )}
 
       <div className="catalog-layout">

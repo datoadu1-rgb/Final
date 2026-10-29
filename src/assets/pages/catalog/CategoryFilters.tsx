@@ -15,7 +15,7 @@ type Filter = {
   unit?: string;
 };
 
-// ბექენდიდან
+// backendidan
 
 type CategoryFiltersProps = {
   filters?: Filter[];
