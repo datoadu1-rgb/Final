@@ -25,8 +25,7 @@ type ProfileUser = {
   address?: string | null;
 };
 
-// ---------- validation rules (the same as the server's) ----------
-// an empty phone, city or address is allowed: it clears the saved value
+// anoth zode
 
 const profileSchema = z
   .object({
@@ -65,7 +64,7 @@ const profileSchema = z
           (value.length >= 8 && /[A-Za-z]/.test(value) && /\d/.test(value)),
         "At least 8 characters, with a letter and a digit",
       ),
-    // this repeat field is checked only here, the server never receives it
+
     confirmPassword: z.string(),
     currentPassword: z.string().min(1, "Enter your current password"),
   })
@@ -76,7 +75,6 @@ const profileSchema = z
 
 type ProfileValues = z.infer<typeof profileSchema>;
 
-// the fields that can be sent to the server (not the two password checks)
 const profileFields = [
   "name",
   "email",
@@ -85,8 +83,6 @@ const profileFields = [
   "address",
   "newPassword",
 ] as const;
-
-// ---------- the page: loads the current data, then shows the form ----------
 
 function ProfilePage() {
   const { data, isLoading, isError, refetch } = useQuery<{
@@ -127,7 +123,7 @@ function ProfilePage() {
   return <ProfileForm user={data.user} />;
 }
 
-// ---------- the form ----------
+// form
 
 function ProfileForm({ user }: { user: ProfileUser }) {
   const navigate = useNavigate();
@@ -162,7 +158,6 @@ function ProfileForm({ user }: { user: ProfileUser }) {
   const dirtyFields = form.formState.dirtyFields;
   const isSubmitting = form.formState.isSubmitting;
 
-  // which profile fields were changed compared to the loaded data
   const changedFields = profileFields.filter((field) => dirtyFields[field]);
   const hasChanges = changedFields.length > 0;
 
@@ -170,7 +165,6 @@ function ProfileForm({ user }: { user: ProfileUser }) {
     setFormError("");
     setSuccess("");
 
-    // the current password is always sent, and only the fields that changed
     const body: Record<string, string> = {
       currentPassword: values.currentPassword,
     };
@@ -183,10 +177,8 @@ function ProfileForm({ user }: { user: ProfileUser }) {
       const result = await updateProfile(body);
       const saved: ProfileUser = result.user;
 
-      // the header (and everything that shows the user) gets the new data
       auth.updateUser(saved);
 
-      // the form now starts from the saved data, and the password fields are empty
       form.reset({
         name: saved.name ?? "",
         email: saved.email ?? "",
@@ -206,7 +198,6 @@ function ProfileForm({ user }: { user: ProfileUser }) {
       };
 
       if (apiError.code === "INVALID_CURRENT_PASSWORD") {
-        // this is a 400, not a 401: the user stays logged in
         form.setError("currentPassword", { message: "Password is incorrect" });
       } else if (apiError.code === "EMAIL_TAKEN") {
         form.setError("email", {
@@ -410,7 +401,6 @@ function ProfileForm({ user }: { user: ProfileUser }) {
             <p className="cart-message cart-message--success">{success}</p>
           )}
 
-          {/* disabled until something changed, and while the request runs */}
           <button
             type="submit"
             className="button"

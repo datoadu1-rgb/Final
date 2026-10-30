@@ -29,9 +29,6 @@ type CheckoutData = {
   };
 };
 
-// ---------- card helpers ----------
-
-// Luhn check: a checksum that catches typos in a card number
 function isValidCardNumber(value: string) {
   const digits = value.replace(/\s/g, "");
 
@@ -70,7 +67,6 @@ function isValidExpiry(value: string) {
   const currentYear = now.getFullYear();
   const currentMonth = now.getMonth() + 1;
 
-  // a card is valid until the end of its expiry month
   return year > currentYear || (year === currentYear && month >= currentMonth);
 }
 
@@ -81,7 +77,6 @@ function formatCardNumber(value: string) {
   return digits.replace(/(.{4})/g, "$1 ").trim();
 }
 
-// 1228 -> 12/28 (the slash is not re-added while the user is deleting)
 function formatExpiry(value: string, isDeleting: boolean) {
   const digits = value.replace(/\D/g, "").slice(0, 4);
 
@@ -96,7 +91,7 @@ function formatExpiry(value: string, isDeleting: boolean) {
   return digits;
 }
 
-// ---------- validation rules ----------
+// validacia
 
 const checkoutSchema = z.object({
   shipping: z.object({
@@ -120,8 +115,6 @@ const checkoutSchema = z.object({
 });
 
 type CheckoutValues = z.infer<typeof checkoutSchema>;
-
-// ---------- the page: loads the data, then shows the form ----------
 
 function CheckoutPage() {
   const { data, isLoading, isError, refetch } = useQuery<CheckoutData>({
@@ -155,15 +148,12 @@ function CheckoutPage() {
     );
   }
 
-  // nothing to buy → back to the cart
   if (data.items.length === 0) {
     return <Navigate to="/cart" replace />;
   }
 
   return <CheckoutForm data={data} />;
 }
-
-// ---------- the form ----------
 
 function CheckoutForm({ data }: { data: CheckoutData }) {
   const navigate = useNavigate();
@@ -222,10 +212,8 @@ function CheckoutForm({ data }: { data: CheckoutData }) {
     try {
       const order = await createOrder(values);
 
-      // card data must not stay anywhere, so the card fields are emptied
       form.setValue("card", { number: "", holder: "", expiry: "", cvc: "" });
 
-      // the order id goes in the URL, so F5 on the code screen keeps it
       navigate("/checkout/confirm/" + order.orderId);
     } catch (error) {
       const apiError = error as {
@@ -238,7 +226,6 @@ function CheckoutForm({ data }: { data: CheckoutData }) {
       } else if (apiError.code === "VALIDATION_ERROR" && apiError.errors) {
         const serverErrors = apiError.errors;
 
-        // keys like "card.number" match our nested field names
         Object.keys(serverErrors).forEach((key) => {
           form.setError(key as FieldPath<CheckoutValues>, {
             message: serverErrors[key],
