@@ -42,6 +42,8 @@ type CartContextValue = {
   changeQty: (itemId: string, qty: number) => Promise<void>;
   removeItem: (itemId: string) => Promise<void>;
   clearCart: () => void;
+  // reloadi roca gadaixdian
+  reloadCart: () => Promise<void>;
 };
 // addToCart: (productId: string, qty: number) => Promise<void>;
 //   changeQty: (itemId: string, qty: number) => Promise<void>;
@@ -103,9 +105,27 @@ export function CartProvider({ children }: { children: ReactNode }) {
     setCart(null);
   }
 
+  // after a paid order the server's cart is empty, this asks the server for it
+  async function reloadCart() {
+    try {
+      const data = await getCart();
+      setCart(data);
+    } catch {
+      setCart(null);
+    }
+  }
+
   return (
     <CartContext.Provider
-      value={{ cart, isBusy, addToCart, changeQty, removeItem, clearCart }}
+      value={{
+        cart,
+        isBusy,
+        addToCart,
+        changeQty,
+        removeItem,
+        clearCart,
+        reloadCart,
+      }}
     >
       {children}
     </CartContext.Provider>

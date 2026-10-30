@@ -40,6 +40,9 @@ interface InputProps {
   ref?: Ref<HTMLInputElement>;
   disabled?: boolean;
   error?: boolean;
+  placeholder?: string;
+  autoComplete?: string;
+  inputMode?: "numeric" | "text";
 }
 
 export function Input(props: InputProps) {
@@ -53,6 +56,9 @@ export function Input(props: InputProps) {
       onChange={props.onChange}
       ref={props.ref}
       disabled={props.disabled}
+      placeholder={props.placeholder}
+      autoComplete={props.autoComplete}
+      inputMode={props.inputMode}
     />
   );
 }

@@ -8,8 +8,10 @@ type User = {
   id?: string;
   name?: string;
   email?: string;
+  phone?: string | null;
+  city?: string | null;
+  address?: string | null;
 };
-
 type AuthStatus = "loading" | "authenticated" | "guest";
 
 type AuthContextValue = {
@@ -17,6 +19,7 @@ type AuthContextValue = {
   user: User | null;
   signIn: (token: string, user: User) => void;
   logout: () => void;
+  updateUser: (user: User) => void;
 };
 
 const AuthContext = createContext<AuthContextValue | null>(null);
@@ -57,9 +60,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setUser(null);
     setStatus("guest");
   }
+  function updateUser(newUser: User) {
+    setUser(newUser);
+  }
 
   return (
-    <AuthContext.Provider value={{ status, user, signIn, logout }}>
+    <AuthContext.Provider value={{ status, user, signIn, logout, updateUser }}>
       {children}
     </AuthContext.Provider>
   );

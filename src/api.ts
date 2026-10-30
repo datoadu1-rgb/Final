@@ -237,3 +237,24 @@ export function updateCartItem(itemId: string, qty: number) {
 export function removeCartItem(itemId: string) {
   return cartRequest(`/cart/items/${itemId}`, "DELETE");
 }
+export function getCheckout() {
+  return cartRequest("/checkout", "GET");
+}
+export function createOrder(body: object) {
+  return cartRequest("/orders", "POST", body);
+}
+
+export function confirmOrder(orderId: string, code: string) {
+  return cartRequest(`/orders/${orderId}/confirm`, "POST", { code: code });
+}
+
+export function resendOrderCode(orderId: string) {
+  return cartRequest(`/orders/${orderId}/resend-code`, "POST");
+}
+
+export function getOrder(orderId: string) {
+  return cartRequest(`/orders/${orderId}`, "GET");
+}
+export function updateProfile(body: object) {
+  return cartRequest("/auth/me", "PATCH", body);
+}

@@ -169,6 +169,7 @@ function CartPage() {
                 type="button"
                 className="add-to-cart"
                 disabled={hasStockProblem}
+                onClick={() => navigate("/checkout")}
               >
                 Go to checkout
               </button>
