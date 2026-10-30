@@ -9,6 +9,7 @@ import CheckoutPage from "./assets/pages/checkoutPage";
 import ConfirmPage from "./assets/pages/comfirmPage";
 import OrderPage from "./assets/pages/orderPage";
 import { RequireAuth } from "./auth";
+import ProfilePage from "./assets/pages/profilePage";
 
 function App() {
   return (
@@ -49,6 +50,14 @@ function App() {
         element={
           <RequireAuth>
             <OrderPage />
+          </RequireAuth>
+        }
+      />
+      <Route
+        path="/profile"
+        element={
+          <RequireAuth>
+            <ProfilePage />
           </RequireAuth>
         }
       />

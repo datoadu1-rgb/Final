@@ -164,7 +164,6 @@ function CartPage() {
                 {data.subtotal} {data.currency}
               </p>
 
-              {/* checkout will be connected here later */}
               <button
                 type="button"
                 className="add-to-cart"

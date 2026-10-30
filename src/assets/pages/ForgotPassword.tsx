@@ -120,7 +120,7 @@ function CodeStep(props: CodeStepProps) {
     <form onSubmit={form.handleSubmit(onSubmit)} noValidate>
       {formError && <Alert type="error">{formError}</Alert>}
 
-      <Alert type="success">meilze movaaaaa shch</Alert>
+      <Alert type="success">sent to mail</Alert>
 
       <FormField label="Code" htmlFor="code" error={errors.code?.message}>
         <Input
@@ -274,7 +274,7 @@ function ForgotPassword() {
           />
         )}
 
-        {step === 4 && <Alert type="success">agdgenilia</Alert>}
+        {step === 4 && <Alert type="success"> reset successfull</Alert>}
 
         <p>
           <Link to="/login"> sign in</Link>

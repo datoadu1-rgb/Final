@@ -1311,3 +1311,35 @@
 .order-items a:hover {
   text-decoration: underline;
 }
+/* ---------- profile ---------- */
+.profile-form {
+  display: grid;
+  gap: 24px;
+  max-width: 640px;
+  margin: 0 auto;
+}
+
+.checkout-page .button:disabled,
+.checkout-page .button:disabled:hover {
+  background: rgba(255, 255, 255, 0.08);
+  box-shadow: none;
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.auth-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.auth-name {
+  color: var(--glow-soft);
+  font-size: 14px;
+  text-decoration: none;
+}
+
+.auth-name:hover {
+  color: #ffffff;
+  text-decoration: underline;
+}
