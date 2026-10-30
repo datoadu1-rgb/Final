@@ -220,7 +220,6 @@ async function cartRequest(path: string, method: string, body?: object) {
 
   return data;
 }
-// /so here we get request for specific product and quantity every time we increase it from ui?
 
 export function getCart() {
   return cartRequest("/cart", "GET");

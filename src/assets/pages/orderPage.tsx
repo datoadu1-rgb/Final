@@ -35,7 +35,6 @@ type Order = {
   paidAt?: string | null;
 };
 
-// the top bar and the page frame, shared by every state of this page
 function OrderShell({ children }: { children: ReactNode }) {
   return (
     <div className="catalog-page product-page checkout-page">
@@ -54,7 +53,6 @@ function OrderShell({ children }: { children: ReactNode }) {
 }
 
 function OrderPage() {
-  // the order id comes from the URL, so F5 works
   const { id } = useParams();
 
   const { data, isLoading, isError, error, refetch } = useQuery<{
@@ -76,7 +74,6 @@ function OrderPage() {
   if (isError || !data) {
     const code = (error as unknown as { code?: string } | null)?.code;
 
-    // 404: no such order (or it belongs to someone else)
     if (code === "ORDER_NOT_FOUND") {
       return (
         <OrderShell>

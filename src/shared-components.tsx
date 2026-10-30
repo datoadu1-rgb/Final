@@ -187,27 +187,31 @@ export function AuthButton() {
   }
 
   return (
-    <button type="button" className="auth-button" onClick={handleLogout}>
-      Log out
-    </button>
+    <div className="auth-actions">
+      <Link className="auth-name" to="/profile">
+        {auth.user?.name}
+      </Link>
+
+      <button type="button" className="auth-button" onClick={handleLogout}>
+        Log out
+      </button>
+    </div>
   );
 }
 
-//  floating cart thina  below the screen
+//  floater
 export function FloatingCart() {
   const auth = useAuth();
   const cart = useCart();
 
   const count = cart.cart?.totalQty ?? 0;
 
-  // hidden until the cart has something in it
   if (auth.status !== "authenticated" || count === 0) {
     return null;
   }
 
   return (
     <Link className="floating-cart" to="/cart" aria-label="Open cart">
-      {/* the key changes with the count, so React rebuilds this and the animation plays again */}
       <span key={count} className="floating-cart__inner">
         <svg
           viewBox="0 0 24 24"
