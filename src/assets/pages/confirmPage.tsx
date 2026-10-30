@@ -8,7 +8,6 @@ import { AuthButton, Button, FormField, Input } from "../../shared-components";
 import "../catalog.css";
 
 function ConfirmPage() {
-  // the order id comes from the URL, so a refresh keeps it
   const { orderId } = useParams();
   const navigate = useNavigate();
   const auth = useAuth();
@@ -21,7 +20,6 @@ function ConfirmPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [secondsLeft, setSecondsLeft] = useState(30);
 
-  // the resend button countdown: every second it schedules the next tick
   useEffect(() => {
     if (secondsLeft <= 0) {
       return;
@@ -53,7 +51,6 @@ function ConfirmPage() {
     try {
       await confirmOrder(orderId ?? "", code);
 
-      // the server emptied the cart, so we load the empty cart (badge goes to 0)
       await cart.reloadCart();
 
       navigate("/orders/" + orderId, { replace: true });
@@ -94,7 +91,6 @@ function ConfirmPage() {
       const apiError = error as { code?: string; retryAfterSeconds?: number };
 
       if (apiError.code === "RESEND_TOO_SOON") {
-        // continue the countdown from the server's number
         setSecondsLeft(apiError.retryAfterSeconds ?? 30);
       } else if (apiError.code === "ORDER_ALREADY_PAID") {
         navigate("/orders/" + orderId, { replace: true });
