@@ -6,7 +6,7 @@ import Catalog from "./assets/pages/catalog/Catalog";
 import ProductPage from "./assets/pages/catalog/ProductPage";
 import CartPage from "./assets/pages/cartPage";
 import CheckoutPage from "./assets/pages/checkoutPage";
-import ConfirmPage from "./assets/pages/comfirmPage";
+import ConfirmPage from "./assets/pages/confirmPage";
 import OrderPage from "./assets/pages/orderPage";
 import { RequireAuth } from "./auth";
 import ProfilePage from "./assets/pages/profilePage";
